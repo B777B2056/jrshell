@@ -1,0 +1,3 @@
+/home/jr/Programs/jrshell/cmake/CMakeFiles/rebuild_cache.dir
+/home/jr/Programs/jrshell/cmake/CMakeFiles/edit_cache.dir
+/home/jr/Programs/jrshell/cmake/CMakeFiles/jrshell.dir

@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/jr/Programs/jrshell/inc/jrshell.h
+stdio.h
+-
+errno.h
+-
+stdlib.h
+-
+string.h
+-
+dirent.h
+-
+unistd.h
+-
+sys/wait.h
+-
+
+/home/jr/Programs/jrshell/src/jrshell.c
+../inc/jrshell.h
+/home/jr/Programs/jrshell/inc/jrshell.h
+
