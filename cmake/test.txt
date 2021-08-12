@@ -1,4 +1,0 @@
-.. inc src . cmake LICENSE README.md .git 
-jrshell.c.swp command.c main.c 
-ts.txt cmake_install.cmake 
-ke 

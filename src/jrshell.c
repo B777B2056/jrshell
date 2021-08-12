@@ -121,8 +121,6 @@ void _exec_single_cmd(Command cmd) {
             break;
         default:
             wait(NULL);
-            if(cmd.pos != -1)
-                printf("Write ok.\r\n");
             break;
     }
 }
