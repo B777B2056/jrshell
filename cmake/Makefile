@@ -123,6 +123,33 @@ jrshell/fast:
 	$(MAKE) -f CMakeFiles/jrshell.dir/build.make CMakeFiles/jrshell.dir/build
 .PHONY : jrshell/fast
 
+home/jr/Programs/jrshell/src/command.o: home/jr/Programs/jrshell/src/command.c.o
+
+.PHONY : home/jr/Programs/jrshell/src/command.o
+
+# target to build an object file
+home/jr/Programs/jrshell/src/command.c.o:
+	$(MAKE) -f CMakeFiles/jrshell.dir/build.make CMakeFiles/jrshell.dir/home/jr/Programs/jrshell/src/command.c.o
+.PHONY : home/jr/Programs/jrshell/src/command.c.o
+
+home/jr/Programs/jrshell/src/command.i: home/jr/Programs/jrshell/src/command.c.i
+
+.PHONY : home/jr/Programs/jrshell/src/command.i
+
+# target to preprocess a source file
+home/jr/Programs/jrshell/src/command.c.i:
+	$(MAKE) -f CMakeFiles/jrshell.dir/build.make CMakeFiles/jrshell.dir/home/jr/Programs/jrshell/src/command.c.i
+.PHONY : home/jr/Programs/jrshell/src/command.c.i
+
+home/jr/Programs/jrshell/src/command.s: home/jr/Programs/jrshell/src/command.c.s
+
+.PHONY : home/jr/Programs/jrshell/src/command.s
+
+# target to generate assembly for a file
+home/jr/Programs/jrshell/src/command.c.s:
+	$(MAKE) -f CMakeFiles/jrshell.dir/build.make CMakeFiles/jrshell.dir/home/jr/Programs/jrshell/src/command.c.s
+.PHONY : home/jr/Programs/jrshell/src/command.c.s
+
 home/jr/Programs/jrshell/src/jrshell.o: home/jr/Programs/jrshell/src/jrshell.c.o
 
 .PHONY : home/jr/Programs/jrshell/src/jrshell.o
@@ -186,6 +213,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... jrshell"
+	@echo "... home/jr/Programs/jrshell/src/command.o"
+	@echo "... home/jr/Programs/jrshell/src/command.i"
+	@echo "... home/jr/Programs/jrshell/src/command.s"
 	@echo "... home/jr/Programs/jrshell/src/jrshell.o"
 	@echo "... home/jr/Programs/jrshell/src/jrshell.i"
 	@echo "... home/jr/Programs/jrshell/src/jrshell.s"

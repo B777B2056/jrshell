@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/jrshell.dir/home/jr/Programs/jrshell/src/command.c.o"
   "CMakeFiles/jrshell.dir/home/jr/Programs/jrshell/src/jrshell.c.o"
   "CMakeFiles/jrshell.dir/home/jr/Programs/jrshell/src/main.c.o"
   "jrshell"

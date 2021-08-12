@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
+  "/home/jr/Programs/jrshell/src/command.c" "/home/jr/Programs/jrshell/cmake/CMakeFiles/jrshell.dir/home/jr/Programs/jrshell/src/command.c.o"
   "/home/jr/Programs/jrshell/src/jrshell.c" "/home/jr/Programs/jrshell/cmake/CMakeFiles/jrshell.dir/home/jr/Programs/jrshell/src/jrshell.c.o"
   "/home/jr/Programs/jrshell/src/main.c" "/home/jr/Programs/jrshell/cmake/CMakeFiles/jrshell.dir/home/jr/Programs/jrshell/src/main.c.o"
   )

@@ -1,35 +1,41 @@
 #ifndef JRSHELL_H
 #define JRSHELL_H
 
-#include <stdio.h>
-#include <errno.h>
-#include <stdlib.h>
-#include <string.h>
-#include <dirent.h>
-#include <unistd.h>
-#include <sys/wait.h>
+#include "command.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 
-#define DIR_LEN 512
+#define CMD_LEN 8
+#define OP_LEN 8
+#define PARAM_LEN 64
 
-/**
- * @brief split lines to command and parameters
- */
-void split(const char* str, char* command, char* param);
-
-/**
- * @brief cd command
- */
-void cd(const char* directory);
+typedef struct {
+    char name[CMD_LEN];
+    char option[OP_LEN];
+    char param[PARAM_LEN];
+    char symbol;    // like <, >, etc.
+    int pos;    // symbol position in param
+} Command;
 
 /**
- * @brief clear all output in shell
+ * @brief split single line to command and parameters
  */
-void clr();
+Command _split_single_cmd(const char* str);
 
 /**
- * @brief show all files in the directory
+ * @brief split multi command lines which are cat with '|' or '>', etc.
  */
-void ls(const char* directory);
+int _split_cmds(const char* str, char** commands);
+
+void _exec_single_cmd(Command cmd);
+
+void _exec_multi_cmd(const Command* cmds, int n, int i);
+
+/**
+ * @brief exec one command
+ */
+void _exec_cmd(const char* str, int cn, int cl);
 
 #endif
 

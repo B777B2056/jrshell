@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/jr/Programs/jrshell/inc/jrshell.h
+/home/jr/Programs/jrshell/inc/command.h
 stdio.h
 -
 errno.h
@@ -20,6 +20,16 @@ dirent.h
 unistd.h
 -
 sys/wait.h
+-
+
+/home/jr/Programs/jrshell/inc/jrshell.h
+command.h
+/home/jr/Programs/jrshell/inc/command.h
+sys/types.h
+-
+sys/stat.h
+-
+fcntl.h
 -
 
 /home/jr/Programs/jrshell/src/jrshell.c
