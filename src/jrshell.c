@@ -6,20 +6,17 @@ Command _split_single_cmd(const char* str) {
     cmd.pos = -1;
     cmd.option[0] = '\0';
     for(const char* t = str; *t != '\0'; ++t) {
-        if(*t == ' ') {
-            ++sp;
-            continue;
-        }
         switch(*t) {
-            case ' ':
-                ++sp;
-                break;
             case '>':
             case '<':
                 cmd.symbol = *t;
                 cmd.pos = k;
                 cmd.param[k++] = *t;
                 break;
+            case ' ':
+                ++sp;
+                if(k == 0)
+                    break;
             default:
                 switch(sp) {
                     case 0:
@@ -65,15 +62,29 @@ int _split_cmds(const char* str, char** commands) {
     return ++cnt;
 }
 
+void _split_pf(Command c, int* p_end, int* f_start) {
+    char* t = c.param + c.pos - 1;
+    char* m = c.param + c.pos + 1;
+    *p_end = c.pos - 1;
+    *f_start = c.pos + 1;
+    for(; *t == ' '; --t)
+        --(*p_end);
+    for(; *m == ' '; ++m)
+        ++(*f_start);
+    ++(*p_end);
+}
+
 void _exec_single_cmd(Command cmd) {
-    int fd;
+    int fd = -1;
+    int p_end, f_start;
     char* file = NULL;
     char param[PARAM_LEN];
     if(cmd.pos == -1) {
         memcpy(param, cmd.param, strlen(cmd.param));
     } else {
-        memcpy(param, cmd.param, cmd.pos);
-        param[cmd.pos] = '\0';
+        _split_pf(cmd, &p_end, &f_start);
+        memcpy(param, cmd.param, p_end + 1);
+        param[p_end] = '\0';
     }
     switch(fork()) {
         case -1:
@@ -82,7 +93,8 @@ void _exec_single_cmd(Command cmd) {
         case 0:
             switch(cmd.symbol) {
                 case '>':
-                    file = cmd.param + cmd.pos + 1;
+                    file = cmd.param + f_start;
+                    printf("%s\r\n", file);
                     fd = open(file, O_WRONLY);
                     if(fd == -1) {
                         printf("%s:%s\r\n", file, strerror(errno));
@@ -91,7 +103,7 @@ void _exec_single_cmd(Command cmd) {
                     dup2(fd, STDOUT_FILENO);
                     break;
                 case '<':
-                    file = cmd.param + cmd.pos + 1;
+                    file = cmd.param + f_start;
                     fd = open(file, O_RDONLY);
                     if(fd == -1) {
                         printf("%s\r\n", strerror(errno));
@@ -120,6 +132,8 @@ void _exec_single_cmd(Command cmd) {
             _exit(0);
             break;
         default:
+            if(fd != -1)
+                close(fd);
             wait(NULL);
             break;
     }
@@ -134,17 +148,13 @@ void _exec_cmd(const char* str, int cn, int cl) {
     int i;
     Command* cmds = NULL;
     char** commands = (char**)malloc(cn * sizeof(char*));
-    for(i = 0; i < cl; ++i)
+    for(i = 0; i < cn; ++i)
         commands[i] = (char*)malloc(cl * sizeof(char));
     // Init each command
     int n = _split_cmds(str, commands);
     cmds = (Command*)malloc(n * sizeof(Command));
     for(i = 0; i < n; ++i) {
         cmds[i] = _split_single_cmd(commands[i]);
-        /*
-        printf("name:%s,option:%s,param:%s,symbol:%c\r\n", 
-                cmds[i].name, cmds[i].option, cmds[i].param, cmds[i].symbol);
-        */
     }
     // Exec command
     if(n == 0) {
@@ -156,7 +166,7 @@ void _exec_cmd(const char* str, int cn, int cl) {
     }
     // Release source
     free(cmds);
-    for(i = 0; i < cl; ++i)
+    for(i = 0; i < cn; ++i)
         free(commands[i]);
     free(commands);
 }

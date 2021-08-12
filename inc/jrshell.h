@@ -6,9 +6,9 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#define CMD_LEN 8
-#define OP_LEN 8
-#define PARAM_LEN 64
+#define CMD_LEN 64
+#define OP_LEN 64
+#define PARAM_LEN 256
 
 typedef struct {
     char name[CMD_LEN];
@@ -27,6 +27,11 @@ Command _split_single_cmd(const char* str);
  * @brief split multi command lines which are cat with '|' or '>', etc.
  */
 int _split_cmds(const char* str, char** commands);
+
+/**
+ * @brief split param and file path from Command.param
+ */
+void _split_pf(Command c, int* p_end, int* f_start);
 
 void _exec_single_cmd(Command cmd);
 
