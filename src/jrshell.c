@@ -54,6 +54,8 @@ int _split_cmds(const char* str, char** commands) {
             commands[cnt++][i-1] = '\0';
             i = 0;
             ++str;
+            for(; *str == ' '; ++str);
+            --str;
         } else {
             commands[cnt][i++] = *str;
         }
@@ -139,8 +141,54 @@ void _exec_single_cmd(Command cmd) {
     }
 }
 
-void _exec_multi_cmd(const Command* cmds, int n, int i) {
-    
+void _exec_multi_cmd(Command* cmds, int n) {
+    int pfd[2];
+    if(pipe(pfd) == -1) {
+        printf("%s\r\n", strerror(errno));
+        return;
+    }
+    Command cmd = cmds[0];
+    for(int i = 0; i < n;) {
+        switch(fork()) {
+            case -1:
+                printf("%s\r\n", strerror(errno));
+                break;
+            case 0:
+                dup2(pfd[1], STDOUT_FILENO);
+                close(pfd[0]);
+                _exec_single_cmd(cmd);
+                _exit(0);
+                break;
+            default:
+                close(pfd[1]);
+                wait(NULL);
+                ++i;
+                if(i >= n)
+                    break;
+                char s[PARAM_LEN], p[ALL_LEN];
+                memset(s, 0, PARAM_LEN);
+                memset(p, 0, ALL_LEN);
+                strcat(p, cmds[i].name);
+                strcat(p, " ");
+                read(pfd[0], s, PARAM_LEN);
+                strcat(p, s);
+                int j;
+                for(j = 0; p[j] != '\0'; ++j) {
+                    if(p[j] == '\r' || p[j] == '\n') {
+                        p[j] = '\0';
+                        break;
+                    }
+                }
+                cmd = _split_single_cmd(p);
+                close(pfd[0]);
+                break;
+        }
+    }
+    char ch;
+    while(read(pfd[0], &ch, 1) > 0)
+        printf("%c", ch);
+    close(pfd[0]);
+    close(pfd[1]);
 }
 
 void _exec_cmd(const char* str, int cn, int cl) {
@@ -162,7 +210,7 @@ void _exec_cmd(const char* str, int cn, int cl) {
     } else if(n == 1) {
         _exec_single_cmd(cmds[0]);
     } else {
-        _exec_multi_cmd(cmds, n, 0);
+        _exec_multi_cmd(cmds, n);
     }
     // Release source
     free(cmds);

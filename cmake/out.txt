@@ -1,2 +1,0 @@
-.. inc src . cmake LICENSE README.md .git 
-t jrshell CMakeLists.txt out.txt cmake_install.cmake 

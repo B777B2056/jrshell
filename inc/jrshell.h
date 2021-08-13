@@ -9,6 +9,7 @@
 #define CMD_LEN 64
 #define OP_LEN 64
 #define PARAM_LEN 256
+#define ALL_LEN CMD_LEN+OP_LEN+PARAM_LEN
 
 typedef struct {
     char name[CMD_LEN];
@@ -35,7 +36,7 @@ void _split_pf(Command c, int* p_end, int* f_start);
 
 void _exec_single_cmd(Command cmd);
 
-void _exec_multi_cmd(const Command* cmds, int n, int i);
+void _exec_multi_cmd(Command* cmds, int n);
 
 /**
  * @brief exec one command
